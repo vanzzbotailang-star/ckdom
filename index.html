@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cek Khodam Nama & Tanggal Lahir</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      background: linear-gradient(135deg, #001F3F, #007BFF);
+      color: white;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 25px;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.4);
+    }
+
+    input {
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      margin: 8px;
+      width: 220px;
+      text-align: center;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 18px;
+      background-color: #ffcc00;
+      color: black;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #ffd633;
+      transform: scale(1.05);
+    }
+
+    #hasil {
+      margin-top: 40px;
+      font-size: 26px;
+      font-weight: bold;
+      min-height: 60px;
+      transition: 0.5s;
+    }
+
+    /* animasi titik loading */
+    .dots::after {
+      content: "";
+      animation: dots 1s steps(3, end) infinite;
+    }
+
+    @keyframes dots {
+      0% { content: ""; }
+      33% { content: "."; }
+      66% { content: ".."; }
+      100% { content: "..."; }
+    }
+
+    /* efek fade */
+    .fade {
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+
+    .fade.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔮 Cek Khodam Kamu 🔮</h1>
+
+  <input type="text" id="nama" placeholder="Masukkan Nama Kamu">
+  <input type="date" id="tgl" placeholder="Tanggal Lahir">
+  <br>
+  <button id="cekBtn">Cek Sekarang</button>
+
+  <div id="hasil"></div>
+
+  <script>
+    const btn = document.getElementById("cekBtn");
+    const hasil = document.getElementById("hasil");
+
+    const khodamList = [
+      "Penembak Muani😹",
+      "Irwanta Borojong😹",
+      "King of ngocok",
+      "Penyefong on ol😹",
+      "✨Naga Emas✨",
+      "Amel guncabgan 😱",
+      "Naga berbulu hitam😹",
+      "Kuntilanak Manis 👻",
+      "Monyet Ajaib 🙈",
+      "Ular gede berbulu🤨",
+      "Ahmad sharoni 😱",
+      "Panda kentod hitam😱",
+      "anjeng klotok",
+      "Kelelawar Birahi 😱",
+      "Garuda Langit 🦅"
+    ];
+
+    let sedangLoading = false;
+
+    btn.addEventListener("click", () => {
+      if (sedangLoading) return;
+
+      const nama = document.getElementById("nama").value.trim();
+      const tgl = document.getElementById("tgl").value;
+
+      if (!nama || !tgl) {
+        hasil.textContent = "⚠️ Isi dulu nama dan tanggal lahir!";
+        return;
+      }
+
+      sedangLoading = true;
+      hasil.textContent = "⏰Loading";
+      hasil.classList.add("dots");
+      hasil.classList.remove("fade", "show");
+      btn.disabled = true;
+
+      setTimeout(() => {
+        hasil.classList.remove("dots");
+
+        const random = khodamList[Math.floor(Math.random() * khodamList.length)];
+        hasil.innerHTML = `
+          <div class="fade show">
+            <p>✨ <strong>${nama}</strong> (lahir: ${tgl}) ✨</p>
+            <p>Khodam kamu adalah:</p>
+            <p style="font-size:30px;">${random}</p>
+          </div>
+        `;
+
+        btn.disabled = false;
+        sedangLoading = false;
+      }, 2000);
+    });
+  </script>
+
+</body>
+</html>
